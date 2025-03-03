@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="styles.css">
     <title>Movies Watchlist</title>
 </head>
 <body>
-    
+    <header>
+        <h1 class="title">Find your film</h1>
+        <a href="/watchlist.html">My watchlist</a>
+    </header>
+    <main class="container">
+        <form id="form" class="search-container">
+            <input type="text" placeholder="Search for a movie" name="search-bar" id="search-bar" class="search-bar">
+            <button type="submit" id="search-btn">Search</button>
+        </form>
+        <div class="results">
+            <img src="/images/movie.png">
+            <p class="start-exploring">Start exploring</p>
+        </div>
+    </main>
 </body>
 </html>
