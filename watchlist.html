@@ -3,14 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your saved movies watchlist.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="styles.css">
-    <title>Movies Watchlist</title>
+    <title>My Watchlist &middot; Movies Watchlist</title>
 </head>
 <body>
-    
+    <header>
+        <h1 class="title">My watchlist</h1>
+        <div class="header-right">
+            <a href="/index.html" class="header-link">Search movies</a>
+            <label class="theme-toggle" aria-label="Toggle dark mode">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </header>
+    <main class="container">
+        <div class="results" id="results"></div>
+    </main>
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <button type="button" id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+            <div id="modal-content" class="modal-content"></div>
+        </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="watchlist.js"></script>
 </body>
 </html>
