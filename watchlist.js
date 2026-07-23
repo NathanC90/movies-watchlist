@@ -7,7 +7,7 @@ function renderWatchlist() {
     if (movies.length === 0) {
         watchlistEl.innerHTML = `
             <div class="empty-state">
-                <img src="/images/movie.png">
+                <img src="images/movie.png">
                 <p class="start-exploring">Your watchlist is empty</p>
             </div>
         `;

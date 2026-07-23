@@ -20,7 +20,7 @@ body.dark {
 /* Header styles */
 
 header {
-    background-image: url('/images/header.png');
+    background-image: url('images/header.png');
     background-size: cover;
     background-position: center;
     width: 100%;
@@ -139,7 +139,7 @@ body.dark .search-container {
 .search-bar {
     width: 70%;
     padding-left: 40px;
-    background-image: url('/images/search.png');
+    background-image: url('images/search.png');
     background-repeat: no-repeat;
     background-position: 10px;
     background-color: #fff;
@@ -259,11 +259,11 @@ body.dark .poster-wrap {
 }
 
 .watchlist-btn.add {
-    background-image: url('/images/add-dark.png');
+    background-image: url('images/add-dark.png');
 }
 
 .watchlist-btn.remove {
-    background-image: url('/images/remove-dark.png');
+    background-image: url('images/remove-dark.png');
 }
 
 body.dark .watchlist-btn {
@@ -271,11 +271,11 @@ body.dark .watchlist-btn {
 }
 
 body.dark .watchlist-btn.add {
-    background-image: url('/images/add-light.png');
+    background-image: url('images/add-light.png');
 }
 
 body.dark .watchlist-btn.remove {
-    background-image: url('/images/remove-light.png');
+    background-image: url('images/remove-light.png');
 }
 
 .movie-title {

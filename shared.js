@@ -68,7 +68,7 @@ function syncWatchlistButtons(imdbID) {
 // ---------- Movie card ----------
 
 function posterSrc(url) {
-    return url && url !== "N/A" ? url : "/images/movie.png";
+    return url && url !== "N/A" ? url : "images/movie.png";
 }
 
 function createMovieCard(movie) {
@@ -146,7 +146,7 @@ function renderModal(movie) {
             <h2 class="modal-title">${movie.Title} <span class="modal-year">(${movie.Year})</span></h2>
             <p class="modal-meta">${movie.Runtime} &bull; ${movie.Genre}</p>
             <p class="modal-rating">
-                <img src="/images/star.png" class="star-icon" alt="">
+                <img src="images/star.png" class="star-icon" alt="">
                 ${movie.imdbRating !== "N/A" ? `${movie.imdbRating} / 10` : "Not yet rated"}
             </p>
             <p class="modal-plot">${movie.Plot}</p>
