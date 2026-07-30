@@ -2,7 +2,7 @@
 
 # 🎬 Movies Watchlist 電影待看清單
 
-以原生 HTML、CSS、JavaScript 打造的電影搜尋應用。透過 [OMDb API](https://www.omdbapi.com/) 搜尋任何片名、檢視完整資訊，並把喜歡的電影加入個人待看清單，資料會保存在瀏覽器中。
+以原生 HTML、CSS、JavaScript 打造的電影搜尋應用程式。透過 [OMDb API](https://www.omdbapi.com/) 搜尋任何片名、檢視完整資訊，並把喜歡的電影加入個人待看清單，資料會保存在瀏覽器中。
 
 **[線上示範 →](https://nathanc90.github.io/movies-watchlist/)**
 
