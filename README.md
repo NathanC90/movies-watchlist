@@ -1,3 +1,5 @@
+**English** | [繁體中文](README.zh-TW.md)
+
 # 🎬 Movies Watchlist
 
 A movie search app built with vanilla HTML, CSS, and JavaScript. Search any title via the [OMDb API](https://www.omdbapi.com/), view full details, and save favorites to a personal watchlist that persists in the browser.
