@@ -40,15 +40,6 @@ styles.css       all styling
 images/          icons and assets
 ```
 
-## Stranger chat (`chat/`)
-
-A separate WooTalk-style app: click 開始聊天 to be randomly paired with an anonymous stranger for a 1-on-1 text chat, with a typing indicator and leave/rematch. Zero dependencies, a Node server using Server-Sent Events. It needs a running server, so it isn't part of the GitHub Pages site.
-
-```bash
-node chat/server.mjs   # http://localhost:3000 (set PORT to change)
-node chat/test.mjs     # self-check
-```
-
 ## Credits
 
 Movie data and posters courtesy of [OMDb API](https://www.omdbapi.com/). Originally started as a solo project for [Scrimba](https://scrimba.com/)'s API module.
