@@ -38,6 +38,7 @@ index.js         search + pagination
 watchlist.js     watchlist rendering
 styles.css       all styling
 images/          icons and assets
+study/           separate 10-minute daily study trainer (open study/index.html; test: node study/study.test.js)
 ```
 
 ## Credits

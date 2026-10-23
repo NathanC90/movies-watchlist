@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-Minute Study Trainer</title>
+    <style>
+        :root {
+            --bg: #fafaf8; --fg: #1d1d1f; --muted: #6b6b70; --card: #fff; --line: #e2e2e0;
+            --accent: #2f6fde; --accent-fg: #fff; --pace: #ffe58a; --ok: #1f8a4c; --bad: #c0392b;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #121214; --fg: #ececee; --muted: #9a9aa2; --card: #1c1c20; --line: #2e2e34;
+                --accent: #6c9cff; --accent-fg: #0b0b0d; --pace: #5a4a00; --ok: #4cc27f; --bad: #ff6b5b;
+            }
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 system-ui, sans-serif; }
+        header, main { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+        header h1 { font-size: 1.4rem; margin: 24px 0 4px; }
+        header p { margin: 0 0 16px; color: var(--muted); }
+        nav { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+        nav button { background: none; color: var(--muted); border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 8px 12px; }
+        nav button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+        section { padding-bottom: 48px; }
+        h2 { font-size: 1.15rem; }
+        .panel { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 12px 0; }
+        button { font: inherit; cursor: pointer; background: var(--accent); color: var(--accent-fg); border: 0; border-radius: 8px; padding: 8px 16px; }
+        button.ghost { background: none; color: var(--fg); border: 1px solid var(--line); }
+        button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        textarea, input { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px; width: 100%; }
+        input[type="number"] { width: 100px; }
+        input[type="checkbox"] { width: auto; }
+        label { display: block; margin: 8px 0 4px; font-weight: 600; }
+        label.inline { display: inline-flex; gap: 6px; align-items: center; font-weight: 400; }
+        .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+        .muted { color: var(--muted); }
+        .error { color: var(--bad); }
+        ol.plan li { margin: 8px 0; }
+        ol.plan li.done { color: var(--muted); text-decoration: line-through; }
+        #read-display { max-height: 60vh; overflow-y: auto; font-size: 1.1rem; line-height: 1.8; }
+        #read-display .pace { background: var(--pace); border-radius: 3px; }
+        .original { white-space: pre-wrap; max-height: 40vh; overflow-y: auto; }
+        #review-q { font-size: 1.15rem; font-weight: 600; }
+        #review-a { white-space: pre-wrap; }
+        ul#cards-list { list-style: none; padding: 0; }
+        ul#cards-list li { display: flex; justify-content: space-between; gap: 12px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--line); }
+        ul#cards-list small { color: var(--muted); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+        .stats div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+        .stats strong { display: block; font-size: 1.3rem; }
+        .table-wrap { overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+        th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>10-Minute Study Trainer</h1>
+        <p>A 10-minute daily routine: read faster at a pace you can still understand, then keep what you read.</p>
+        <nav aria-label="Sections">
+            <button data-tab="today">Today</button>
+            <button data-tab="review">Review</button>
+            <button data-tab="read">Read</button>
+            <button data-tab="cards">Cards</button>
+            <button data-tab="progress">Progress</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="today">
+            <h2>Today's 10 minutes</h2>
+            <ol class="plan">
+                <li id="step-review"><strong>Review (~4 min).</strong> <span id="due-count">0</span> cards due.
+                    Answer from memory <em>before</em> revealing. <button class="ghost" data-goto="review">Start review</button></li>
+                <li id="step-read"><strong>Reading drill (~4 min).</strong> Paste ~1 page of today's training material, read with the pacer,
+                    then write down what you remember. <button class="ghost" data-goto="read">Start drill</button></li>
+                <li id="step-cards"><strong>Make 3–5 cards (~2 min).</strong> Turn the key points you missed or must not forget into
+                    questions. <button class="ghost" data-goto="cards">Add cards</button></li>
+            </ol>
+            <p class="muted">Streak: <strong id="today-streak">0</strong> days. Review comes first: recalling yesterday's material
+                before adding new material is what makes it stick.</p>
+
+            <div class="panel">
+                <h2>Why this routine</h2>
+                <ul>
+                    <li><strong>Retrieval practice:</strong> trying to recall something strengthens memory far more than re-reading it.
+                        That's why you type an answer before you reveal it.</li>
+                    <li><strong>Spaced repetition:</strong> each card comes back after 1, 2, 4, 8, 16, then 32 days, just before you'd forget it.
+                        If you forget a card, it starts over.</li>
+                    <li><strong>Pacer:</strong> a moving highlight cuts down on re-reading and drifting attention. Comprehension sets your speed:
+                        the target pace only goes up when you recall at least 70%.</li>
+                    <li><strong>Good cards</strong> are small and specific: "Who approves refunds over $500?" works better than "Explain the refund policy".
+                        For processes, make one card per step: "After X, what's next?"</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="read" hidden>
+            <div id="read-setup">
+                <h2>Reading drill</h2>
+                <label for="read-text">Training material (about one page)</label>
+                <textarea id="read-text" rows="10" placeholder="Paste a section of your training document here…"></textarea>
+                <div class="row">
+                    <label class="inline" for="read-wpm">Target pace</label>
+                    <input id="read-wpm" type="number" min="100" max="1000" step="10"> <span class="muted">words/min</span>
+                    <label class="inline"><input id="read-pacer" type="checkbox"> Use pacer</label>
+                </div>
+                <p id="read-error" class="error" role="alert"></p>
+                <button id="read-start">Start reading</button>
+            </div>
+
+            <div id="read-run" hidden>
+                <p class="muted">Follow the highlight. Don't go back. Press Done when you reach the end.</p>
+                <div id="read-display" class="panel"></div>
+                <button id="read-done">Done</button>
+            </div>
+
+            <div id="read-recall" hidden>
+                <h2>What do you remember?</h2>
+                <p class="muted">Without looking, write the key points: names, numbers, steps, rules. Keep going even if it's hard;
+                    the effort of recalling is the exercise.</p>
+                <textarea id="recall-notes" rows="8" aria-label="Your recall notes"></textarea>
+                <div class="row"><button id="recall-submit">Compare with original</button></div>
+            </div>
+
+            <div id="read-check" hidden>
+                <h2>Check yourself</h2>
+                <p>You read at <strong id="check-wpm">0</strong> words/min.</p>
+                <div class="panel"><strong>Your notes</strong><p id="check-yours" class="original"></p></div>
+                <div class="panel"><strong>Original</strong><p id="check-original" class="original"></p></div>
+                <p><strong>How much of the important content did you capture?</strong></p>
+                <div class="row">
+                    <button class="ghost" data-recall="10">Almost none</button>
+                    <button class="ghost" data-recall="30">Some</button>
+                    <button class="ghost" data-recall="50">About half</button>
+                    <button class="ghost" data-recall="70">Most</button>
+                    <button class="ghost" data-recall="90">Nearly all</button>
+                </div>
+                <p id="check-result" role="status"></p>
+
+                <div class="panel">
+                    <strong>Turn what you missed into cards</strong>
+                    <label for="check-q">Question</label>
+                    <input id="check-q" placeholder="e.g. Who signs off on a vendor change?">
+                    <label for="check-a">Answer</label>
+                    <input id="check-a" placeholder="e.g. Ops lead, then Finance">
+                    <div class="row"><button id="check-card-add">Add card</button> <span id="check-card-msg" class="muted" role="status"></span></div>
+                </div>
+                <button class="ghost" id="read-again">New drill</button>
+            </div>
+        </section>
+
+        <section id="review" hidden>
+            <h2>Review</h2>
+            <p id="review-empty" class="muted">No cards due right now. Add cards from today's reading, or come back tomorrow.</p>
+            <div id="review-card" class="panel" hidden>
+                <p class="muted" id="review-left"></p>
+                <p id="review-q"></p>
+                <label for="review-attempt">Your answer (from memory)</label>
+                <textarea id="review-attempt" rows="3"></textarea>
+                <div class="row"><button id="review-reveal">Reveal answer</button></div>
+                <div id="review-answer" hidden>
+                    <p><strong>Answer:</strong></p>
+                    <p id="review-a"></p>
+                    <div class="row">
+                        <button class="ghost" data-grade="0">Forgot</button>
+                        <button class="ghost" data-grade="1">Got it</button>
+                        <button class="ghost" data-grade="2">Easy</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cards" hidden>
+            <h2>Cards (<span id="cards-total">0</span>)</h2>
+            <label for="cards-bulk">Add cards, one per line: <code>question | answer</code></label>
+            <textarea id="cards-bulk" rows="5" placeholder="What's the SLA for a P1 ticket? | 1 hour response, 4 hours resolution
+Who approves refunds over $500? | Team lead"></textarea>
+            <div class="row"><button id="cards-add">Add</button> <span id="cards-msg" class="muted" role="status"></span></div>
+            <ul id="cards-list"></ul>
+        </section>
+
+        <section id="progress" hidden>
+            <h2 id="prog-day">Day 0 of 30</h2>
+            <div class="stats">
+                <div>Streak<strong id="prog-streak">0</strong></div>
+                <div>Effective wpm, first → latest<strong id="prog-eff">–</strong></div>
+                <div>Review recall rate<strong id="prog-retention">–</strong></div>
+                <div>Cards learned (8+ day gap)<strong id="prog-learned">0</strong></div>
+            </div>
+            <p class="muted">Effective wpm = reading speed × recall %. It's the number that matters: reading fast and remembering
+                nothing scores zero.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Date</th><th>WPM</th><th>Recall</th><th>Effective</th><th>Reviews OK</th><th>Cards added</th></tr></thead>
+                    <tbody id="prog-rows"></tbody>
+                </table>
+            </div>
+            <div class="row">
+                <button class="ghost" id="export">Download backup (JSON)</button>
+                <span class="muted">Data lives only in this browser.</span>
+            </div>
+        </section>
+    </main>
+
+    <script src="study.js"></script>
+</body>
+</html>
